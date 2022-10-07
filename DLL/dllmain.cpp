@@ -98,15 +98,6 @@ DWORD WINAPI Hook(LPVOID lpParam)
 
 BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReserved)
 {
-    // since there could be retail and debug asi in same folder
-    // unload early if exe timestamp is wrong one
-#if TR7
-    if (!CheckVersion())
-    {
-        return FALSE;
-    }
-#endif
-
     switch (ul_reason_for_call)
     {
         case DLL_PROCESS_ATTACH:
