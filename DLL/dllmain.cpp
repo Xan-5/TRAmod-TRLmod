@@ -49,7 +49,6 @@ cdc::FileSystem* GetFS()
 static bool hit = false;
 
 HMODULE hHookDll;
-HHOOK hHook;
 
 BOOL (WINAPI* dGetVersionExA)(LPSTARTUPINFOA lpStartupInfo);
 
@@ -82,8 +81,6 @@ BOOL  WINAPI hGetVersionExA(LPSTARTUPINFOA lpStartupInfo)
 
 		MH_EnableHook(MH_ALL_HOOKS);
 		hit = true;
-
-		// TODO MH_RemoveHook
 	}
 
 	return dGetVersionExA(lpStartupInfo);
@@ -113,9 +110,8 @@ BOOL APIENTRY DllMain(HMODULE hModule, DWORD  ul_reason_for_call, LPVOID lpReser
     switch (ul_reason_for_call)
     {
         case DLL_PROCESS_ATTACH:
-						hHookDll = hModule;
-						DisableThreadLibraryCalls(hModule);
-            //CreateThread(NULL, 0, Hook, NULL, 0, NULL);
+            hHookDll = hModule;
+            DisableThreadLibraryCalls(hModule);
             Hook(NULL);
             break;
         case DLL_PROCESS_DETACH:
